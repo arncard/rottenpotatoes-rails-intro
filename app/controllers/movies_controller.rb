@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @movies = Movie.order(params[:sort_column]) #Movie.all
   end
 
   def new
@@ -42,4 +42,5 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  
 end
