@@ -4,13 +4,15 @@
 %table#movies
   %thead
     %tr
-      #%th= sortable "Movie Title", :id => "title_header"
-      // %th{:id => 'title_header', :class => helper_class('title') }= 
-      //     link_to "Movie Title", movies_path(:sort=>'title', :ratings =>params[:ratings]), :id => 'title_header'
+  
       
-      %th= link_to "Movie Title" :sort => "title_header"
-      %th= link_to "Rating" :sort => "release_date_header"
-      %th Release Date
+      %th{:class => "#{@category == "title" ? "hilite" : ""}"}
+        %a#title_header{:href => movies_path({"category" => "title", "sort" => "asc"})} Movie Title
+      
+      
+      %th Rating
+      %th{:class => "#{@category == "release_date" ? "hilite" : ""}"}
+        %a#release_date_header{:href => movies_path({"category" => "release_date", "sort" => "asc"})} Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|

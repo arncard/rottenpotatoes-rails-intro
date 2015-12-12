@@ -1,7 +1,7 @@
 class MoviesController < ApplicationController
 
   def movie_params
-    params.require(:movie).permit(:title, :rating, :description, :release_date)
+    params.require(:movie).permit(:title, :description, :release_date)
   end
 
   def show
@@ -11,7 +11,39 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.order(params[:sort_column]) #Movie.all
+    #@movies = Movie.order(params[:sort_column]) #Movie.all
+    
+    redirect = false
+
+    @category = nil
+    if params.has_key?(:category)
+      @category = params[:category]
+    elsif session.has_key?(:category)
+      @category = session[:category]
+      redirect = true
+    end
+
+    @sort = nil
+    if params.has_key?(:sort)
+      @sort = params[:sort]
+    elsif session.has_key?(:sort)
+      @sort = session[:sort]
+      redirect = true
+    end
+
+    @movies = Movie.all
+
+    if @category and @sort
+      @movies = Movie.order("#{@category} #{@sort}")#@movies.find(:all, :order => "#{@category} #{@sort}")
+      session[:category] = @category
+      session[:sort] = @sort
+    end
+
+    if redirect
+      flash.keep
+      redirect_to movies_path({:category => @category, :sort => @sort})
+    end
+    
   end
 
   def new
