@@ -13,6 +13,8 @@ class MoviesController < ApplicationController
   def index
     #@movies = Movie.order(params[:sort_column]) #Movie.all
     
+    @all_ratings = Movie.ratings
+    
     redirect = false
 
     @category = nil
@@ -30,8 +32,18 @@ class MoviesController < ApplicationController
       @sort = session[:sort]
       redirect = true
     end
+    
+    @ratings =  {"G" => "1", "PG" => "1", "PG-13" => "1", "R" => "1"}
+    if params.has_key?(:ratings)
+      @ratings = params[:ratings]
+    elsif session.has_key?(:ratings)
+      @ratings = session[:ratings]
+      redirect = true
+    end
 
-    @movies = Movie.all
+    @movies = Movie.where("rating in (?)", @ratings.keys) #@movies = Movie.all
+    
+    session[:ratings] = @ratings
 
     if @category and @sort
       @movies = Movie.order("#{@category} #{@sort}")#@movies.find(:all, :order => "#{@category} #{@sort}")
@@ -41,7 +53,7 @@ class MoviesController < ApplicationController
 
     if redirect
       flash.keep
-      redirect_to movies_path({:category => @category, :sort => @sort})
+      redirect_to movies_path({:category => @category, :sort => @sort, :ratings => @ratings})
     end
     
   end
