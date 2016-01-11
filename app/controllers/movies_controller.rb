@@ -42,7 +42,7 @@ class MoviesController < ApplicationController
     end
 
     @movies = Movie.where("rating in (?)", @ratings.keys) #@movies = Movie.all
-    puts "ratings " + @ratings.keys
+    puts "ratings " + @ratings
     session[:ratings] = @ratings
 
     if @category and @sort
