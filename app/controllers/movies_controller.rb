@@ -41,7 +41,7 @@ class MoviesController < ApplicationController
       redirect = true
     end
 
-    @movies = Movie.where("rating in (?)", @ratings.keys) #@movies = Movie.all
+    @movies = Movie.where("rating in (?)", "G")#@ratings.keys) #@movies = Movie.all
     #puts "ratings " + @ratings
     session[:ratings] = @ratings
 
