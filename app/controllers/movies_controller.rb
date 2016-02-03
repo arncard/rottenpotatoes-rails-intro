@@ -41,12 +41,12 @@ class MoviesController < ApplicationController
       redirect = true
     end
 
-    @movies = Movie.where("rating in (?)", @ratings.keys) #@movies = Movie.all
+    @movies = Movie.where("rating in (?)", @ratings.keys) 
     #puts "ratings " + @ratings
     session[:ratings] = @ratings
 
     if @category and @sort
-      @movies = @movies.find(:all, :order => "#{@category} #{@sort}") #Movie.order("#{@category} #{@sort}")
+      @movies = @movies.find(:all, :order => "#{@category} #{@sort}") 
       session[:category] = @category
       session[:sort] = @sort
     end
