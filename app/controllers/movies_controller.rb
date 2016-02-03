@@ -46,7 +46,7 @@ class MoviesController < ApplicationController
     session[:ratings] = @ratings
 
     if @category and @sort
-      @movies = @movies.find(:all, :order => "#{@category} #{@sort}") 
+      @movies = @movies.find(:all) 
       session[:category] = @category
       session[:sort] = @sort
     end
